@@ -31,4 +31,43 @@ public class StreamTest {
         List<Integer> squaresList = numbers.stream().map(i -> i * i).distinct().collect(Collectors.toList());
         log.info(squaresList);
     }
+
+    @Test
+    public void filter(){
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        long count = strings.stream().filter(string -> !string.isEmpty()).count();
+        log.debug(count);
+    }
+
+    @Test
+    public void limit(){
+        Random random = new Random();
+        random.ints().limit(10).forEach(log::debug);
+    }
+
+    @Test
+    public void sorted(){
+        Random random = new Random();
+        random.ints().limit(10).sorted().forEach(log::debug);
+    }
+
+    @Test
+    public void parallel(){
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        long count = strings.parallelStream().filter(string -> !string.isEmpty()).count();
+        log.debug(count);
+    }
+
+    @Test
+    public void collectors(){
+        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
+        log.debug(filtered);
+        String mergeString = filtered.stream().collect(Collectors.joining(","));
+        log.debug(mergeString);
+    }
+
+
+
+
 }
