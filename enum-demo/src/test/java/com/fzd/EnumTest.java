@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.io.PipedInputStream;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * 功能描述: 枚举类型Demo
  *
@@ -27,10 +29,10 @@ public class EnumTest {
     }
 
     /**
-     * 测试基于枚举类型定义的方法
+     * 测试基于枚举类型定义api
      */
     @Test
-    public void customMethodUseEnum(){
+    public void apiMethodUseEnum(){
         Pizza pizza = new Pizza();
         System.out.println(pizza.isDeliverable()); //false
         pizza.setStatus(Pizza.PizzaStatus.READY);
@@ -50,5 +52,42 @@ public class EnumTest {
         pizza.setStatus(Pizza.PizzaStatus.READY);
         System.out.println(pizza.getStatus().equals(TestColor.GREEN)); //编译能通过, 运行结果 false
 //        System.out.println(pizza.getStatus() == TestColor.GREEN); //编译时异常
+    }
+
+    /**
+     * 枚举类型可用于switch case
+     */
+    @Test
+    public void switchTest(){
+        Pizza pizza = new Pizza();
+        switch (pizza.getStatus()){
+            case READY:break;
+            case ORDERED:break;
+            case DELIVERED:break;
+            default:
+        }
+    }
+
+    /**
+     * 枚举类型定义属性、方法、构造方法
+     */
+    @Test
+    public void givenPizzaOrder_whenReady_thenDelivery(){
+        Pizza pizza = new Pizza();
+        pizza.setStatus(Pizza.PizzaStatus.READY);
+        //调用枚举方法
+        assertTrue(pizza.getStatus().isReady());
+        //枚举类型比较 ==
+        assertTrue(pizza.isDeliverable());
+        //枚举属性
+        pizza.printTimeToDeliver();
+    }
+
+    @Test
+    public void givenPizaOrder_whenDelivered_thenPizzaGetsDeliveredAndStatusChanges(){
+        Pizza pizza = new Pizza();
+        pizza.setStatus(Pizza.PizzaStatus.READY);
+        pizza.deliver();
+        assertTrue(pizza.getStatus() == Pizza.PizzaStatus.DELIVERED);
     }
 }
