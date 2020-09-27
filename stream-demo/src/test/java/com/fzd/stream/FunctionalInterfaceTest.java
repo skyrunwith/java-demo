@@ -25,7 +25,7 @@ public class FunctionalInterfaceTest {
     }
 
     private void eval(List<Integer> list, Predicate<Integer> predicate){
-        list.stream().forEach(a -> {
+        list.forEach(a -> {
             if(predicate.test(a)){
                 System.out.print(a + " ");
             }
