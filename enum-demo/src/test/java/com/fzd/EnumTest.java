@@ -1,5 +1,7 @@
 package com.fzd;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.io.PipedInputStream;
@@ -83,11 +85,26 @@ public class EnumTest {
         pizza.printTimeToDeliver();
     }
 
+    /**
+     * 单例和策略模式测试
+     */
     @Test
     public void givenPizaOrder_whenDelivered_thenPizzaGetsDeliveredAndStatusChanges(){
         Pizza pizza = new Pizza();
         pizza.setStatus(Pizza.PizzaStatus.READY);
         pizza.deliver();
         assertTrue(pizza.getStatus() == Pizza.PizzaStatus.DELIVERED);
+    }
+
+    /**
+     * Enum 对象序列化为JSON字符串
+     * @throws JsonProcessingException
+     */
+    @Test
+    public void enumJson() throws JsonProcessingException {
+        Pizza pizza = new Pizza();
+        pizza.setStatus(Pizza.PizzaStatus.READY);
+        ObjectMapper mapper = new ObjectMapper();;
+        System.out.println(mapper.writeValueAsString(pizza));
     }
 }

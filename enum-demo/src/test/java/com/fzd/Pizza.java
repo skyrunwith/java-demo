@@ -1,5 +1,6 @@
 package com.fzd;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.*;
@@ -56,21 +57,27 @@ public class Pizza {
      * @return
      */
     public static EnumMap<Pizza.PizzaStatus, List<Pizza>> groupPizzaByStatus(List<Pizza> pizzaList){
-        EnumMap<Pizza.PizzaStatus, List<Pizza>> enumMap = new EnumMap<PizzaStatus, List<Pizza>>(PizzaStatus.class);
-        Iterator<Pizza> iterator = pizzaList.iterator();
-        while (iterator.hasNext()){
-            Pizza pizza = iterator.next();
-            PizzaStatus pizzaStatus = pizza.getStatus();
-            if(enumMap.containsKey(pizzaStatus)){
-                enumMap.get(pizzaStatus).add(pizza);
-            }else {
-                List<Pizza> list = new ArrayList<>();
-                list.add(pizza);
-                enumMap.put(pizzaStatus, list);
-            }
-        }
-        return enumMap;
+//        EnumMap<Pizza.PizzaStatus, List<Pizza>> enumMap = new EnumMap<PizzaStatus, List<Pizza>>(PizzaStatus.class);
+//        Iterator<Pizza> iterator = pizzaList.iterator();
+//        while (iterator.hasNext()){
+//            Pizza pizza = iterator.next();
+//            PizzaStatus pizzaStatus = pizza.getStatus();
+//            if(enumMap.containsKey(pizzaStatus)){
+//                enumMap.get(pizzaStatus).add(pizza);
+//            }else {
+//                List<Pizza> list = new ArrayList<>();
+//                list.add(pizza);
+//                enumMap.put(pizzaStatus, list);
+//            }
+//        }
+//        return enumMap;
+
+        //java8
+        return pizzaList.stream().collect(Collectors.groupingBy(Pizza::getStatus
+                , () -> new EnumMap<>(PizzaStatus.class), Collectors.toList()));
     }
+
+
 
     public void deliver(){
         if(isDeliverable()){
@@ -82,6 +89,7 @@ public class Pizza {
     /**
      * 枚举类型定义
      */
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum PizzaStatus {
         ORDERED(5){
             //枚举方法
