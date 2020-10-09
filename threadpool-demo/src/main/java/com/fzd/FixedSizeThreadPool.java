@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class FixedSizeThreadPool {
     //任务仓库
-    private LinkedBlockingQueue<Runnable>;
+    private LinkedBlockingQueue<Runnable> queue;
 
     //线程池
     private List<Thread> workers;
