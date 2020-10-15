@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
- * 功能描述:
+ * 功能描述: Java 线程阻塞状态测试
  *
  * @author: FZD
  * @date: 2020/10/15

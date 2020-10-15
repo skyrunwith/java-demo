@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * 功能描述:
+ * 功能描述: 多线程转账
  *
  * @author: FZD
  * @date: 2020/10/14
