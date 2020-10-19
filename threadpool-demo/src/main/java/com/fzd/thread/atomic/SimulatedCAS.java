@@ -14,11 +14,9 @@ public class SimulatedCAS {
 
     public void addOne(){
         long newValue;
-//        do {
+        do {
             newValue = count + 1;
-            log.info(cas(count, newValue));
-//            log.info(count != cas(count, newValue));
-//        }while (count != cas(count, newValue)); //看不懂这行代码 1 != 0
+        }while (count != cas(count, newValue)); //看不懂这行代码 1 != 0
     }
 
     private synchronized long cas(long expect, long newValue){
@@ -32,11 +30,6 @@ public class SimulatedCAS {
         return curValue;
     }
 
-
-    private long aaa(long expect, long newValue){
-        return expect;
-    }
-
     public long getCount() {
         return count;
     }
@@ -45,6 +38,5 @@ public class SimulatedCAS {
         SimulatedCAS simulatedCAS = new SimulatedCAS();
         simulatedCAS.addOne();
         log.info("count: " + simulatedCAS.getCount());
-        log.info(1!=0);
     }
 }
