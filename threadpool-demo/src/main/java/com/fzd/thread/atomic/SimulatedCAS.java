@@ -16,7 +16,7 @@ public class SimulatedCAS {
         long newValue;
         do {
             newValue = count + 1;
-        }while (count != cas(count, newValue)); //看不懂这行代码 1 != 0
+        }while (count != cas(count, newValue)); //看不懂这行代码 1 != 0，实际上是 0 != 0
     }
 
     private synchronized long cas(long expect, long newValue){
