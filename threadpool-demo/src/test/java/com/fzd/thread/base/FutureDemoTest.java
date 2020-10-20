@@ -170,6 +170,11 @@ public class FutureDemoTest {
         t2.join();
     }
 
+    /**
+     * 使用 FutureTask 实现泡茶程序
+     *
+     * @throws InterruptedException
+     */
     @Test
     public void futureTaskMakeTea() throws ExecutionException, InterruptedException {
         FutureTask<String> f1 = new FutureTask<String>(() -> {
