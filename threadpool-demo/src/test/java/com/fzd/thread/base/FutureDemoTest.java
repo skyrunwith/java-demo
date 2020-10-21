@@ -90,22 +90,34 @@ public class FutureDemoTest {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    @Test
-    public void futureCancel() throws ExecutionException, InterruptedException {
+    @Test(expected = CancellationException.class)
+    public void futureCancel() throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(5);
         Future<?> future = executor.submit(() -> {
-            while (true) {
-                if (Thread.currentThread().isInterrupted()) {
-                    log.info("中断");
-                    break;
-                }
+//            while (true) {
+//                if (Thread.currentThread().isInterrupted()) {
+//                    // mayInterruptIfRunning 为true时中断
+//                    log.info("中断");
+//                    break;
+//                }
+//            }
+
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                // mayInterruptIfRunning 为true时中断
+                log.info("中断");
+            }finally {
+                // mayInterruptIfRunning 为 true false都会调用
+                log.info("sleep finally");
             }
         });
         TimeUnit.SECONDS.sleep(1);
-        assertTrue(future.cancel(true));
+        assertTrue(future.cancel(false));
         assertTrue(future.isCancelled());
         assertTrue(future.isDone());
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(10);
+        future.get(); // 抛出CancellationException
     }
 
     class Task implements Runnable {
