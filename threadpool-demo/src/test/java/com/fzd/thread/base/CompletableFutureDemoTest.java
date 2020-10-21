@@ -14,6 +14,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Log4j2
 public class CompletableFutureDemoTest {
+
+    /**
+     * CompletableFuture 完成泡茶程序
+     */
     @Test
     public void makeTea(){
         CompletableFuture<Void> f1 = CompletableFuture.runAsync(() ->{
@@ -41,12 +45,41 @@ public class CompletableFutureDemoTest {
             }
             return "";
         });
-        CompletableFuture<String> f3 = f1.thenCombine(f2, (t, u) -> {
-            log.info(t);
+        CompletableFuture<String> f3 = f1.thenCombine(f2, (__, u) -> {
             log.info("拿到茶叶：" + u);
             log.info("泡茶");
             return "上茶：" + u;
         });
         log.info(f3.join());
+    }
+
+    /**
+     * Completable API
+     */
+    @Test
+    public void completableFutureAPI(){
+        // runAsync
+        CompletableFuture.runAsync(() ->{});
+        CompletableFuture.runAsync(() ->{}, null);
+        // supplyAsync
+        CompletableFuture.supplyAsync(()-> 1 + 1);
+        CompletableFuture.supplyAsync(()-> 1 + 1, null);
+        // allOf
+        CompletableFuture.allOf(CompletableFuture.runAsync(()->{}));
+        // anyOf
+        CompletableFuture.anyOf(CompletableFuture.runAsync(()->{}));
+        // completedFuture
+        CompletableFuture<String> f = CompletableFuture.completedFuture("fzd");
+    }
+
+    @Test
+    public void completionStageAPI(){
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> {});
+        CompletableFuture<String> f0 =
+                CompletableFuture.supplyAsync(
+                        () -> "Hello World")      //①
+                        .thenApply(s -> s + " QQ")  //②
+                        .thenApply(String::toUpperCase);//③
+        System.out.println(f0.join());
     }
 }
