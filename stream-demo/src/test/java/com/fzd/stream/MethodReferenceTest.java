@@ -19,13 +19,13 @@ public class MethodReferenceTest {
         //构造器引用
         final Car car = Car.create(Car::new);
         List<Car> cars = Collections.singletonList(car);
-        //静态方法引用
+        //静态方法引用，相当于把car作为参数
         cars.forEach(Car::collide);
-        //任意对象调用Class:method
+        //任意对象调用Class:method, 第一个参数会变成执行方法的对象
         cars.forEach(Car::repair);
 
         final Car police = Car.create(Car::new);
-        //特定对象方法引用 instance:method
+        //特定对象方法引用 instance:method，相当于把car作为参数
         cars.forEach(police::follow);
 
     }
@@ -42,6 +42,7 @@ public class MethodReferenceTest {
 
         public void follow(final Car car){
             System.out.println("Follow the: " + car.toString());
+            this.repair();
         }
 
         public void repair(){
