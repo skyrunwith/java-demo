@@ -26,17 +26,21 @@ public class CompletableFutureDemoTest {
     public void completeApi() throws InterruptedException, ExecutionException {
         CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> {
             try {
-                log.info("begin runAsync");
+                log.info(Thread.currentThread().getName() + " begin runAsync");
                 TimeUnit.SECONDS.sleep(3);
-                log.info("end runAsync");
+                log.info(Thread.currentThread().getName() + " end runAsync");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return "auto complete";
+            return Thread.currentThread().getName() + " auto complete";
+        });
+        CompletableFuture<Void> f2 = f1.thenAcceptAsync(str -> {
+            log.info(Thread.currentThread().getName() +  str);
+            log.info(Thread.currentThread().getName() + " f2 run");
         });
         TimeUnit.SECONDS.sleep(2);
-        assertTrue(f1.complete("manual compete"));
-        log.info(f1.get());
+//        assertTrue(f1.complete("manual compete"));
+        Thread.currentThread().join();
     }
 
     @Test
