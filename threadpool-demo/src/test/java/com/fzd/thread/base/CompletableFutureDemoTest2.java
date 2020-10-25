@@ -3,11 +3,12 @@ package com.fzd.thread.base;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
  * CompletableFuture Demo
- *  thenRun、thenAccept、thenApply、whenComplete
+ * thenRun、thenAccept、thenApply、whenComplete
  */
 @Log4j2
 public class CompletableFutureDemoTest2 {
@@ -16,6 +17,7 @@ public class CompletableFutureDemoTest2 {
 
     /**
      * thenRun 语法测试，Async线程切换测试，只有thenRunAsync传了线程池参数才会切换
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -68,16 +70,34 @@ public class CompletableFutureDemoTest2 {
     }
 
     @Test
-    public void whenComplete() throws InterruptedException {
+    public void whenComplete() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> Thread.currentThread().getName() + "future done");
         future.whenCompleteAsync((str, t) -> {
-            if(t == null){
+            if (t == null) {
                 log.info(str);
-            }else {
+            } else {
                 t.printStackTrace();
             }
             log.info(Thread.currentThread().getName() + "complete");
         }, pool);
-        Thread.currentThread().join();
+        TimeUnit.SECONDS.sleep(3);
+        log.info(future.get());
+    }
+
+    @Test
+    public void whenCompleteException() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> {
+            throw new RuntimeException();
+//            return Thread.currentThread().getName() + "future done")
+        });
+        future.whenCompleteAsync((str, t) -> {
+            if (t == null) {
+                log.info(str);
+            } else {
+                log.info(t);
+            }
+            log.info(Thread.currentThread().getName() + " complete");
+        }, pool);
+        log.info(future.get());
     }
 }
