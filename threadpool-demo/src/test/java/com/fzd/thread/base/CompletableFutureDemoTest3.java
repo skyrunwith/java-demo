@@ -86,7 +86,7 @@ public class CompletableFutureDemoTest3 {
      * @throws InterruptedException
      */
     @Test
-    public void whenCompleteException() throws ExecutionException, InterruptedException {
+    public void exceptionally() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future = new CompletableFuture<>();
         new Thread(() -> {
             try {
@@ -98,7 +98,11 @@ public class CompletableFutureDemoTest3 {
                 // 未添加该代码会一直阻塞
                 future.completeExceptionally(e);
             }
+            log.info(Thread.currentThread().getName() + " set result future");
         }, "thread-1").start();
+        // 抛出异常
+        //        log.info(future.get());
+        // 不抛出异常，并设置默认值
         log.info(future.exceptionally(t -> "default").get());
     }
 
