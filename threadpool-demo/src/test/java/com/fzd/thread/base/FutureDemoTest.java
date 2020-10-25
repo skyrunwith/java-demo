@@ -43,7 +43,10 @@ public class FutureDemoTest {
      */
     @Test
     public void threadFutureTask() throws ExecutionException, InterruptedException {
-        FutureTask<Integer> task = new FutureTask<>(() -> 1 + 2);
+        FutureTask<Integer> task = new FutureTask<>(() -> {
+            TimeUnit.SECONDS.sleep(10);
+            return 1 + 2;
+        });
         Thread thread = new Thread(task);
         thread.start();
         Integer result = task.get();
@@ -113,7 +116,7 @@ public class FutureDemoTest {
             }
         });
         TimeUnit.SECONDS.sleep(1);
-        assertTrue(future.cancel(false));
+        assertTrue(future.cancel(true));
         assertTrue(future.isCancelled());
         assertTrue(future.isDone());
         TimeUnit.SECONDS.sleep(10);
