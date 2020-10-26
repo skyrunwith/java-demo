@@ -22,7 +22,8 @@ public class SemaphoreDemo {
             Thread thread = new Thread(() -> {
                 try {
                     semaphoreDemo.objectPool.exec(t -> {
-                        log.info(Thread.currentThread().getName() + " " + t);
+                        log.info(Thread.currentThread().getName()
+                                + " " + t);
                         return t.toString();
                     });
                 } catch (InterruptedException e) {
