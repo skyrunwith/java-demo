@@ -123,6 +123,25 @@ public class FutureDemoTest {
         future.get(); // 抛出CancellationException
     }
 
+    /**
+     * 测试 get超时
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws TimeoutException
+     */
+    @Test
+    public void getTimes() throws InterruptedException, ExecutionException, TimeoutException {
+        Future<Integer> future = ForkJoinPool.commonPool().submit(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        });
+        log.info("result = {}" , future.get(1, TimeUnit.SECONDS));
+    }
+
     class Task implements Runnable {
         private User user;
 
