@@ -126,7 +126,7 @@ public class CompletableFutureDemoTest3 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            String id = companyId + ":bdfus";
+            String id = companyId + ":dd";
             log.info(Thread.currentThread().getName() + " doSomeThing two done");
             return id;
         });
