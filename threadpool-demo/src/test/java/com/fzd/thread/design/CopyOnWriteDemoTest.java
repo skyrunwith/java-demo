@@ -1,5 +1,6 @@
 package com.fzd.thread.design;
 
+import com.fzd.thread.design.cow.Router;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.spi.CopyOnWrite;
 import org.junit.Test;
@@ -20,15 +21,15 @@ public class CopyOnWriteDemoTest {
     public void getRouter(){
         RouterTable routerTable = initRouter();
         routerTable.get("A").forEach(r -> {
-            log.info(r.iface + " " + r.ip + " " + r.port);
+            log.info(r.getIface() + " " + r.getIp() + " " + r.getPort());
         });
         routerTable.add(new Router("192.168.0.3", "B", 8081));
         routerTable.get("B").forEach(r -> {
-            log.info(r.iface + " " + r.ip + " " + r.port);
+            log.info(r.getIface() + " " + r.getIp() + " " + r.getPort());
         });
         routerTable.remove(new Router("192.168.0.3", "B", 8081));
         routerTable.get("B").forEach(r -> {
-            log.info(r.iface + " " + r.ip + " " + r.port);
+            log.info(r.getIface() + " " + r.getIp() + " " + r.getPort());
         });
     }
 
@@ -52,40 +53,16 @@ public class CopyOnWriteDemoTest {
         }
 
         public boolean remove(Router router){
-            CopyOnWriteArraySet<Router> set = map.get(router.iface);
+            CopyOnWriteArraySet<Router> set = map.get(router.getIface());
             return set != null && set.remove(router);
         }
 
         public void add(Router router){
-            CopyOnWriteArraySet<Router> set = map.computeIfAbsent(router.iface, r -> new CopyOnWriteArraySet<>());
+            CopyOnWriteArraySet<Router> set = map.computeIfAbsent(router.getIface(), r -> new CopyOnWriteArraySet<>());
             set.add(router);
         }
 
     }
 
-    final class Router{
-        private final String ip;
-        private final String iface;
-        private final Integer port;
 
-        public Router(String ip, String iface, Integer port) {
-            this.ip = ip;
-            this.iface = iface;
-            this.port = port;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if(o instanceof Router){
-                Router r = (Router) o;
-                return ip.equals(r.ip) && port.equals(r.ip) && iface.equals(r.iface);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(ip, iface, port);
-        }
-    }
 }
