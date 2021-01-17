@@ -1,12 +1,9 @@
 package com.fzd.thread.base;
 
-import javafx.geometry.VPos;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
