@@ -39,7 +39,7 @@ public class CompletableFutureDemoTest {
             log.info(Thread.currentThread().getName() + " f2 run");
         });
         TimeUnit.SECONDS.sleep(2);
-//        assertTrue(f1.complete("manual compete"));
+        assertTrue(f1.complete("manual compete"));
         Thread.currentThread().join();
     }
 

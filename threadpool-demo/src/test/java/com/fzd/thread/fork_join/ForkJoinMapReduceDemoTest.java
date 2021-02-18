@@ -46,7 +46,7 @@ public class ForkJoinMapReduceDemoTest {
             if(end - start == 1){
                 // 最后运行该方法的是
                 // f(0), f(1), f(2), f(3), f(4)
-                // start, end 的值分别是 0, 1;1, 2;2, 3;3, 4,4,5
+                // start, end 的值分别是 0, 1;1, 2;2, 3;3, 4;4,5
                 return calc(fc[start]);
             }
             int mid = (end + start) / 2;

@@ -46,6 +46,7 @@ public class WorkerThread {
             });
         }finally {
             ssc.close();
+            executor.shutdown();
         }
     }
 
