@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -101,6 +102,19 @@ public class StreamDocTest {
                 return e;
             }
         }).forEach(log::info);
+    }
+
+    @Test
+    public void sideEffects(){
+        List<String> list = new ArrayList<>();
+        Stream<String> stream = Stream.of("one", "two", "three");
+        // Unnecessary use of side-effects!
+        stream.filter(s -> Pattern.matches("", s))
+                .forEach(list::add);
+        // No side-effects!
+        List<String> list2 = stream.filter(s -> Pattern.matches("", s))
+                .collect(Collectors.toList());
+
     }
 
     @Data
