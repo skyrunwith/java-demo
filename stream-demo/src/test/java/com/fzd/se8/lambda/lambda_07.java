@@ -1,10 +1,7 @@
 package com.fzd.se8.lambda;
 
-import com.sun.org.apache.xpath.internal.operations.And;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-
-import java.util.function.BiFunction;
 
 /**
  * 功能描述:
