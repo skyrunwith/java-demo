@@ -3,10 +3,8 @@ package com.fzd.net;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 
 /**
  * @author fuzude
@@ -50,5 +48,26 @@ public class URLTest {
         log.info("query = {}", url.getQuery());
         log.info("file = {}", url.getFile());
         log.info("ref = {}", url.getRef());
+    }
+
+    @Test
+    public void urlReader() throws IOException {
+        URL oracle = new URL("https://www.oracle.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null)
+            log.info(inputLine);
+        in.close();
+    }
+
+    @Test
+    public void connecting() {
+        try {
+            URL url = new URL("http://example.org");
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
