@@ -38,4 +38,17 @@ public class URLTest {
         URI uri = new URI("http", "example.com", "/hello world", "");
         log.info("uri: {}", uri.toURL().toString());
     }
+
+    @Test
+    public void parsingUrl() throws MalformedURLException {
+        URL url = new URL("http://example.com:80/docs/books/tutorial/index.html?name=networking#DOWNLOADING");
+        log.info("protocol = {}", url.getProtocol());
+        log.info("authority = {}", url.getAuthority());
+        log.info("host = {}", url.getHost());
+        log.info("port = {}", url.getPort());
+        log.info("path = {}", url.getPath());
+        log.info("query = {}", url.getQuery());
+        log.info("file = {}", url.getFile());
+        log.info("ref = {}", url.getRef());
+    }
 }
