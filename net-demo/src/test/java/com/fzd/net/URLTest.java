@@ -70,4 +70,20 @@ public class URLTest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 使用URLConnection与URL通信
+     * read from a URLConnection
+     */
+    @Test
+    public void urlConnectionReader() throws IOException {
+        URL url = new URL("https://www.oracle.com");
+        URLConnection urlConnection = url.openConnection();
+        urlConnection.connect();
+        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null)
+            log.info(inputLine);
+        in.close();
+    }
 }
