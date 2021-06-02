@@ -86,4 +86,29 @@ public class URLTest {
             log.info(inputLine);
         in.close();
     }
+
+    /**
+     * 使用URLConnection与URL通信
+     * write to a URLConnection
+     */
+    @Test
+    public void reverse() throws IOException {
+        String str = "ab c";
+        String encoderStr = URLEncoder.encode(str, "UTF-8");
+        String urlStr = "http://httpbin.org/anything?getStr=" + encoderStr;
+        URL url = new URL(urlStr);
+        URLConnection urlConnection = url.openConnection();
+        urlConnection.setDoOutput(true);
+        urlConnection.connect();
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
+        outputStreamWriter.write("bodyStr=" + str);
+        outputStreamWriter.close();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
+            String inputLine;
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                log.info(inputLine);
+            }
+        }
+    }
 }
