@@ -39,6 +39,17 @@ public class URLTest {
 
     @Test
     public void parsingUrl() throws MalformedURLException {
+        /**
+         * protocol = http
+         * authority = example.com:80
+         * host = example.com
+         * port = 80
+         * path = /docs/books/tutorial/index.html
+         * query = name=networking
+         * file = /docs/books/tutorial/index.html?name=networking
+         * ref = DOWNLOADING
+         * userinfo = null
+         */
         URL url = new URL("http://example.com:80/docs/books/tutorial/index.html?name=networking#DOWNLOADING");
         log.info("protocol = {}", url.getProtocol());
         log.info("authority = {}", url.getAuthority());
@@ -48,6 +59,7 @@ public class URLTest {
         log.info("query = {}", url.getQuery());
         log.info("file = {}", url.getFile());
         log.info("ref = {}", url.getRef());
+        log.info("userinfo = {}", url.getUserInfo());
     }
 
     @Test
@@ -99,7 +111,8 @@ public class URLTest {
         URL url = new URL(urlStr);
         URLConnection urlConnection = url.openConnection();
         urlConnection.setDoOutput(true);
-        urlConnection.connect();
+        //url.getOutputStream 隐式设置 connect = true;
+//        urlConnection.connect();
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
         outputStreamWriter.write("bodyStr=" + str);
         outputStreamWriter.close();
